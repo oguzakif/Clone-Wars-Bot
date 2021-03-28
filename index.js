@@ -1,4 +1,3 @@
-console.log("dımbıllan");
 
 require("dotenv").config();
 
