@@ -87,10 +87,10 @@ client.on('message', async message => {
           distube.play(message, theme);
 	      }
     }
-    else if (message.content === '.todaysQuote') {
-        channel.send("Today's quote is: ");
+    else if (message.content === '.todayQuote') {
+        message.channel.send("Today's quote is: ");
         dailyIndex = parseInt(readIndex());
-        channel.send(replies[dailyIndex]);
+        message.channel.send(replies[dailyIndex]);
     }
     else if (String(message.content).includes('hey mando'))
     {
