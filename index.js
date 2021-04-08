@@ -1,4 +1,4 @@
-
+  
 require("dotenv").config();
 
 const DisTube = require('distube');
@@ -8,6 +8,7 @@ const keepAlive = require('./server')
 const client = new Discord.Client();
 const theme = 'https://www.youtube.com/watch?v=UxZRZsq-Aj4';
 const theme2 = 'https://www.youtube.com/watch?v=xXp4GnC1Z3Q';
+const duelofthefates = 'https://www.youtube.com/watch?v=xlYCxbBZUCY';
 const distube = new DisTube(client, { searchSongs: true, emitNewSongOnly: true });
 
 const replies = [
@@ -29,12 +30,8 @@ function readIndex() {
 }
 
 function writeIndex() {
-    fs.writeFile('index.txt', dailyIndex, err => {
-        console.log("written data: " + dailyIndex);
-        if (err) {
-            return console.error(err)
-        }
-    })
+    console.log("written-data: "+dailyIndex)
+    fs.writeFileSync("index.txt", dailyIndex);
 }
 
 function increaseIndex(){
@@ -92,12 +89,23 @@ client.on('message', async message => {
         dailyIndex = parseInt(readIndex());
         message.channel.send(replies[dailyIndex]);
     }
-    else if (String(message.content).includes('hey mando'))
+    else if (message.content === '.thisistheway')
     {
       message.reply('this is the way');
       if (message.member.voice.channel) {
           distube.play(message, theme2);
 	      }
+    }
+    else if (message.content === '.duel') {
+      if (message.member.voice.channel) {
+          distube.play(message, duelofthefates);
+	    }
+    }
+    else if(message.content ==='.help'){
+      message.channel.send("Here are the list of commands: \n"+
+      ".randomQuote -> replies a random quote from Clone Wars TV show. (with surprise). \n"+".todayQuote -> replies the quote of the day from Clone Wars TV show. \n"
+      +".thisistheway -> plays the mandalorian theme. \n"
+      +".duel -> plays duel of the fates theme.");
     }
 
 });
